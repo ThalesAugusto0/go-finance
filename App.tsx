@@ -1,22 +1,23 @@
 import React, { useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { ThemeProvider } from "styled-components";
+import { NavigationContainer } from "@react-navigation/native";
 
 import {
   useFonts,
   Poppins_400Regular,
   Poppins_500Medium,
-  Poppins_700Bold
-} from '@expo-google-fonts/poppins'
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
 
-import theme from './src/Global/styles/theme';
-import { Register } from './src/screens/Register/index';
+import theme from "./src/Global/styles/theme";
+import { AppRoutes } from "./src/routes/app.routes";
 
 export default function App() {
   const [isLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
-    Poppins_700Bold
+    Poppins_700Bold,
   });
 
   useEffect(() => {
@@ -34,12 +35,13 @@ export default function App() {
     if (isLoaded) hideSplashScreen();
   }, [isLoaded]);
 
-  if(!isLoaded) return null;
-  
+  if (!isLoaded) return null;
+
   return (
     <ThemeProvider theme={theme}>
-      <Register />
+      <NavigationContainer>
+        <AppRoutes />
+      </NavigationContainer>
     </ThemeProvider>
-  )
+  );
 }
-
