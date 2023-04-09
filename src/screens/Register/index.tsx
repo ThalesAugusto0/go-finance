@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Modal, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
 import { Control, FieldValues, useForm } from "react-hook-form";
 import * as Yup from "yup";
@@ -18,6 +18,7 @@ import { TransactionTypeButton } from "../../components/Form/TransactionTypeButt
 import { CategorySelectButton } from "../../components/Form/CategorySelectButton";
 import { CategorySelect } from "../CategorySelect";
 import uuid from "react-native-uuid";
+import { useNavigation } from "@react-navigation/native";
 
 interface FormData {
   [name: string]: string;
@@ -41,9 +42,16 @@ export function Register() {
     name: "Categoria",
   });
 
+  type NavigationProps = {
+    navigate: (screen: string) => void;
+  };
+
+  const navigation = useNavigation<NavigationProps>();
+
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
@@ -86,29 +94,20 @@ export function Register() {
       const dataFormatted = [...currentData, newTransaction];
 
       await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormatted));
+
+      reset();
+      setTransactionType("");
+      setCategory({
+        key: "category",
+        name: "Categoria",
+      });
+
+      navigation.navigate("Listagem");
     } catch (error) {
       console.log(error);
       Alert.alert("Não foi possível salvar");
     }
   }
-  /*
-   * 1.Criado código para salvar os dados no dispositivo do user.
-   * 2.Criado a recuperação dos dados salvos.
-   * 3.Criado código para remover dados do mobile do user.
-   */
-  useEffect(() => {
-    async function loadData() {
-      const data = await AsyncStorage.getItem(dataKey);
-      console.log(JSON.parse(data!));
-    }
-    loadData();
-
-    /* Remove o que foi salvo no dispositivo do usuário.
-    async function removeAll() {
-      await AsyncStorage.removeItem(dataKey);
-    }
-    removeAll();*/
-  }, []);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
