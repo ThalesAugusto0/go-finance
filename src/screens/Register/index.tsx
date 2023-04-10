@@ -28,7 +28,8 @@ const schema = Yup.object().shape({
   name: Yup.string().required("Nome é obrigatório"),
   amount: Yup.number()
     .typeError("Informe um valor númerico")
-    .positive("O valor não pode ser negativo"),
+    .positive("O valor não pode ser negativo")
+    .required("O valor é obrigatório"),
 });
 
 export function Register() {
@@ -88,7 +89,6 @@ export function Register() {
       const dataKey = "@gofinances:transactions";
 
       const data = await AsyncStorage.getItem(dataKey);
-
       const currentData = data ? JSON.parse(data) : [];
 
       const dataFormatted = [...currentData, newTransaction];
@@ -124,26 +124,27 @@ export function Register() {
               placeholder="Nome"
               autoCapitalize="sentences"
               autoCorrect={false}
-              error={errors.name && errors?.name.message}
+              error={errors.name && errors.name.message}
             />
+
             <InputForm
               name="amount"
               control={formControll}
               placeholder="Preço"
               keyboardType="numeric"
-              error={errors.amount && errors?.amount.message}
+              error={errors.amount && errors.amount.message}
             />
 
             <TransactionsTypes>
               <TransactionTypeButton
                 type="up"
-                title="Entrada"
+                title="Income"
                 onPress={() => handleTransactionsTypeSelect("positive")}
                 isActive={transactionType === "positive"}
               />
               <TransactionTypeButton
                 type="down"
-                title="Saída"
+                title="Outcome"
                 onPress={() => handleTransactionsTypeSelect("negative")}
                 isActive={transactionType === "negative"}
               />
@@ -154,6 +155,7 @@ export function Register() {
               onPress={handleOpenSelectCategoryModal}
             />
           </Fields>
+
           <Button title="Enviar" onPress={handleSubmit(handleRegister)} />
         </Form>
 
