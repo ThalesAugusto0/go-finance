@@ -17,7 +17,7 @@ import {
 import theme from "./src/Global/styles/theme";
 import { AppRoutes } from "./src/routes/app.routes";
 import { SignIn } from "./src/screens/SignIn";
-import { AuthProvider } from "./src/hooks/auth";
+import { AuthProvider, useAuth } from "./src/hooks/auth";
 
 export default function App() {
   const [isLoaded] = useFonts({
@@ -25,6 +25,8 @@ export default function App() {
     Poppins_500Medium,
     Poppins_700Bold,
   });
+
+  const { userStorageLoading } = useAuth();
 
   useEffect(() => {
     const showSplashScreen = async () => {
@@ -41,14 +43,14 @@ export default function App() {
     if (isLoaded) hideSplashScreen();
   }, [isLoaded]);
 
-  if (!isLoaded) return null;
+  if (!isLoaded || userStorageLoading) return null;
 
   return (
     <ThemeProvider theme={theme}>
-        <StatusBar barStyle="light-content" />
-        <AuthProvider>
-          <Routes />
-        </AuthProvider>
+      <StatusBar barStyle="light-content" />
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
     </ThemeProvider>
   );
 }
