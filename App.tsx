@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { ThemeProvider } from "styled-components";
-import { NavigationContainer } from "@react-navigation/native";
+import { Routes } from "./src/routes";
 import { StatusBar } from "react-native";
 import "react-native-gesture-handler";
 import "intl";
@@ -45,15 +45,10 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <NavigationContainer>
         <StatusBar barStyle="light-content" />
-
         <AuthProvider>
-          <SignIn />
+          <Routes />
         </AuthProvider>
-
-        {/* <AppRoutes /> */}
-      </NavigationContainer>
     </ThemeProvider>
   );
 }
