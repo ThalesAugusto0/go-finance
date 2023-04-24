@@ -46,5 +46,5 @@ Instale o go-finances com yarn
 
 ## Aprendizados
 
-O que você aprendeu construindo esse projeto? Quais desafios você enfrentou e como você superou-os?
+Um dos aprendizados mais importantes que eu tive, foi o login usando o google OAuth e a autenticação da Apple.
 
