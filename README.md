@@ -48,3 +48,7 @@ Instale o go-finances com yarn
 
 Um dos aprendizados mais importantes que eu tive, foi o login usando o google OAuth e a autenticação da Apple.
 
+## Screenshots
+
+![Print-inicial](https://tinypic.host/i/oNujwd)
+
